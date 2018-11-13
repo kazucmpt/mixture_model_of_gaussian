@@ -23,13 +23,13 @@ def dataset(number_of_data,number_of_cluster,show_initial):
 	values = [[] for i in range(number_of_cluster)]
 
 	for k in range(number_of_cluster):
-		values[k] = np.random.multivariate_normal(expectation_vectors[k],convariance_matrixs[k],200)
+		values[k] = np.random.multivariate_normal(expectation_vectors[k],convariance_matrixs[k],int(number_of_data/number_of_cluster))
 
 	data = np.vstack(values)
 
 	if show_initial:
 		plt.scatter(data[:,0],data[:,1])
-		plt.ylim([-20,20])
+		plt.xlim([-20,20])
 		plt.ylim([-20,20])
 		plt.xlabel("x",fontsize=16)
 		plt.ylabel("y",fontsize=16)
@@ -46,8 +46,11 @@ def sampling_svectors(number_of_data, number_of_cluster, pi_vector, predict_prec
 			eta[n][k] = math.exp(-0.5*(x[n] - predict_expectation_vectors[k] ) @ predict_precision_matrixs[k] @ (x[n] - predict_expectation_vectors[k] ) + 0.5*math.log(np.linalg.det(predict_precision_matrixs[k])) + math.log(pi_vector[k]))
 
 	for n in range(0,number_of_data):
-		normalized_const = eta[n][0]+eta[n][1]+eta[n][2]
-		s_vectors[n] = np.random.multinomial(1,(eta[n][0]/normalized_const,eta[n][1]/normalized_const,eta[n][2]/normalized_const))
+		normalized_const = 0
+		for k in range(0,number_of_cluster):
+			normalized_const = normalized_const + eta[n][k]
+
+		s_vectors[n] = np.random.multinomial(1,eta[n]/normalized_const)
 
 	return s_vectors
 
@@ -157,6 +160,8 @@ if __name__  == "__main__":
 	number_of_cluster = 3
 	trial_times = 80
 	number_of_data = 600
+
+	assert number_of_data % number_of_cluster == 0, "入力データ数をクラス数の倍数にしてください。"
 
 	show_initial = True #分類前の２次元データ分布を見るか否か。
 	show_contour = True #分類後に正解等高線を表示するか否か。
