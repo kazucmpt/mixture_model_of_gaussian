@@ -62,7 +62,7 @@ def sampling_svectors(number_of_data, number_of_cluster, pi_vector, predict_prec
 
 def sampling_pi_vector(number_of_data,number_of_cluster,s_vectors):
 
-	alpha_vector = np.array([1.0,1.0,1.0])	
+	alpha_vector = np.ones(number_of_cluster)	
 	new_alpha_vector = np.zeros(number_of_cluster)
 
 
