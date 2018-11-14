@@ -192,4 +192,4 @@ if __name__  == "__main__":
 	print("Trial回数:",trial_times,"\n")
 	for k in range(0,number_of_cluster):
 		print("グループ"+str(k)+"の平均\n",predict_expectation_vectors[k])
-		print("グループ"+str(k)+"の共分散行列\n",predict_precision_matrixs[k],"\n")
+		print("グループ"+str(k)+"の共分散行列\n",np.linalg.inv(predict_precision_matrixs[k]),"\n")
