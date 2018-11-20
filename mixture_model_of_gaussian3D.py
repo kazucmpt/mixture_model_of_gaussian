@@ -28,10 +28,9 @@ def dataset(number_of_data,number_of_cluster,show_initial):
 
 	data = np.vstack(values)
 
-	fig = plt.figure()
-	ax = Axes3D(fig)
-
 	if show_initial:
+		fig = plt.figure()
+		ax = Axes3D(fig)
 		ax.scatter(data[:,0],data[:,1],data[:,2])
 		ax.set_xlim(-20,20)
 		ax.set_ylim(-20,20)
