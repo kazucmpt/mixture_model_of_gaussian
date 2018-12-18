@@ -8,7 +8,6 @@ import scipy
 
 
 def dataset(number_of_data,number_of_cluster,show_initial):
-
 	expectation_vectors = [[] for i in range(number_of_cluster)]
 
 	expectation_vectors[0] = [+12,+6,+8]
@@ -43,7 +42,6 @@ def dataset(number_of_data,number_of_cluster,show_initial):
 	return data
 
 def sampling_svectors(number_of_data, number_of_cluster, pi_vector, predict_precision_matrixs, predict_expectation_vectors):
-	
 	eta = np.zeros((number_of_data,number_of_cluster))
 
 	for n in range(0,number_of_data):
@@ -60,26 +58,19 @@ def sampling_svectors(number_of_data, number_of_cluster, pi_vector, predict_prec
 	return s_vectors
 
 def sampling_pi_vector(number_of_data,number_of_cluster,s_vectors):
-
 	alpha_vector = np.ones(number_of_cluster)	
 	new_alpha_vector = np.zeros(number_of_cluster)
 
-
 	for k in range(0,number_of_cluster):
-
 		sum2 = 0
-
 		for n in range(0,number_of_data):
 			sum2 = sum2 + s_vectors[n][k]
-
 		new_alpha_vector[k] = sum2 + alpha_vector[k]
-
 	pi_vector = np.random.dirichlet(new_alpha_vector)
 
 	return pi_vector
 
 def sampling_predict_precision_matrixs_and_predict_expectation_vectors(number_of_data,number_of_cluster,s_vectors,):
-
 	#ガウスウィシャード分布の超パラメータ
 	beta = 1.0
 	v = 3 # > D-1
@@ -88,7 +79,6 @@ def sampling_predict_precision_matrixs_and_predict_expectation_vectors(number_of
 
 	new_beta = np.zeros(number_of_cluster)
 	new_m_vector = np.zeros((number_of_cluster,3))
-
 
 	for k in range(0,number_of_cluster):
 		sum1 = 0
@@ -118,16 +108,13 @@ def sampling_predict_precision_matrixs_and_predict_expectation_vectors(number_of
 	return predict_precision_matrixs,predict_expectation_vectors
 
 def multivariate_Gaussian_distribution(x,y,precision_matrix,expectation_vector):
-
 	cordinate = np.array([x,y])
 	convariance_matrix = np.linalg.inv(precision_matrix)
 	
 	return 1.0/((2.0*math.pi)**2*np.linalg.det(convariance_matrix))*math.exp(-0.5*(cordinate-expectation_vector)@np.linalg.inv(convariance_matrix)@(cordinate-expectation_vector))
 
 def show_answer(number_of_data,number_of_cluster,x,s_vectors,predict_precision_matrixs,predict_expectation_vectors,show_contour):
-	
 	groups = [[] for i in range(number_of_cluster)] #空の配列をnumber_of_cluster個用意する。
-
 	for n in range(0,number_of_data):
 		for k in range(0,number_of_cluster):
 			if s_vectors[n][k] == 1:
@@ -150,7 +137,6 @@ def show_answer(number_of_data,number_of_cluster,x,s_vectors,predict_precision_m
 
 
 if __name__  == "__main__":
-	
 	number_of_cluster = 3
 	trial_times = 80
 	number_of_data = 600
@@ -176,11 +162,9 @@ if __name__  == "__main__":
 	for i in range(0,trial_times):
 
 		#sをサンプリングする。
-		s_vectors = sampling_svectors(number_of_data, number_of_cluster, pi_vector, predict_precision_matrixs, predict_expectation_vectors)
-		
+		s_vectors = sampling_svectors(number_of_data, number_of_cluster, pi_vector, predict_precision_matrixs, predict_expectation_vectors)	
 		#predict_precision_matrixsとpredict_expectation_vectorsをサンプリングする。
 		predict_precision_matrixs, predict_expectation_vectors = sampling_predict_precision_matrixs_and_predict_expectation_vectors(number_of_data, number_of_cluster, s_vectors)
-
 		#pi_vectorをサンプリングする。
 		pi_vector = sampling_pi_vector(number_of_data, number_of_cluster, s_vectors)
 
