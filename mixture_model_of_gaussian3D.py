@@ -6,7 +6,6 @@ from mpl_toolkits.mplot3d import Axes3D
 from pylab import *
 import scipy
 
-
 def dataset(number_of_data,number_of_cluster,show_initial):
 	expectation_vectors = [[] for i in range(number_of_cluster)]
 
