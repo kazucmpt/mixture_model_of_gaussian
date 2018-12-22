@@ -134,7 +134,6 @@ def show_answer(number_of_data,number_of_cluster,x,s_vectors,predict_precision_m
 	ax.set_zlim(-20,20)
 	plt.show()
 
-
 if __name__  == "__main__":
 	number_of_cluster = 3
 	trial_times = 80
